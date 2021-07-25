@@ -1,7 +1,7 @@
 <template>
-  <div class="border border-gray-200 rounded shadow-lg transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer">
+  <div class="border border-gray-200 rounded shadow-lg transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer my-4">
     <div class="flex p-6">
-      <img class="inline-block h-10 w-10 rounded-full mr-4" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+      <div class="inline-block h-10 w-10 rounded-full mr-4 shadow-md" :class="`bg-${color}-300`" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
       <div class="mr-5">
         <h3 class="font-bold">
           {{ name }}
@@ -52,7 +52,11 @@ export default Vue.extend({
     },
     collaborators: {
       type: Array,
-      default: () => [],
+      default: () => []
+    },
+    color: {
+      type: String,
+      required: true
     }
   },
   setup() {
