@@ -5,7 +5,7 @@
     <div class="py-4 px-20">
       <div class="flex">
         <div>
-          <h2 class="text-xl font-bold">
+          <h2 class="text-2xl font-bold">
             Modifications
           </h2>
           <p class="text-gray-700 text-sm">

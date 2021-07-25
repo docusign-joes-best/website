@@ -7,7 +7,7 @@
           {{ name }}
         </h3>
         <p class="text-gray-700 text-sm">
-          Proposed by: <span class="text-black">{{ author }}</span>
+          Proposed by <span class="text-black">{{ author }}</span>
         </p>
       </div>
       <div>
