@@ -3,9 +3,6 @@
     <h1 class="title">
       This page is loaded from the {{ name }}
     </h1>
-    <h2 class="info" v-if="name === 'client'">
-      Please refresh the page
-    </h2>
     <div id="viewDiv"></div>
     <nuxt-link class="button" to="/">
       Home page
@@ -30,7 +27,6 @@ export default {
     }
   },
   mounted () {
-    console.log('map: mounted')
     loadModules([
       'esri/Map',
       'esri/views/SceneView',
@@ -56,7 +52,6 @@ export default {
         camera: this.$store.state.camera
       })
       this.$store.commit('setWatchHandle', watchUtils.watch(view, 'camera', (camera) => {
-        console.log('change')
         this.$store.commit('setCamera', camera.clone().toJSON())
       }))
       // NOTE: important: now that we're using a promise
@@ -66,7 +61,6 @@ export default {
     })
   },
   beforeDestroy () {
-    console.log('map: beforeDestroy')
     this.$store.state.watchHandle.remove()
   }
 }
