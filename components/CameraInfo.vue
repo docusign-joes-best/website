@@ -18,12 +18,12 @@ export default {
   mounted () {
     loadModules([
       'esri/Map',
-      'esri/views/SceneView',
+      'esri/views/MapView',
       'esri/core/watchUtils'
     ], {
       // use a specific version instead of latest 4.x
       url: 'https://js.arcgis.com/4.2/'
-    }).then(([EsriMap, SceneView, watchUtils]) => {
+    }).then(([EsriMap, MapView, watchUtils]) => {
       // create map with the given options at a DOM node w/ id 'mapNode'
       let map
       if (!this.$store.state.map) {
@@ -35,7 +35,7 @@ export default {
       } else {
         map = this.$store.state.map
       }
-      const view = new SceneView({
+      const view = new MapView({
         container: 'viewDiv',
         map,
         camera: this.$store.state.camera
