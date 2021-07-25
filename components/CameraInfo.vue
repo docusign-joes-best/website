@@ -1,16 +1,5 @@
 <template>
-  <section class="container">
-    <h1 class="title">
-      This page is loaded from the {{ name }}
-    </h1>
-    <div id="viewDiv"></div>
-    <nuxt-link class="button" to="/">
-      Home page
-    </nuxt-link>
-    <nuxt-link class="button" to="/about">
-      About page
-    </nuxt-link>
-  </section>
+  <div id="viewDiv"></div>
 </template>
 
 <script>
@@ -71,20 +60,5 @@ export default {
 #viewDiv {
   height: 500px;
   width: 100%;
-}
-.title
-{
-  margin-top: 50px;
-}
-.info
-{
-  font-weight: 300;
-  color: #9aabb1;
-  margin: 0;
-  margin-top: 10px;
-}
-.button
-{
-  margin-top: 50px;
 }
 </style>
