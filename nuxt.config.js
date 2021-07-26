@@ -23,12 +23,20 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
+<<<<<<< Updated upstream
   css: [
     '@/assets/css/index.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+=======
+  css: [],
+
+  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+  plugins: [
+    { src: '~/plugins/arcgis.js', mode: 'client' }
+>>>>>>> Stashed changes
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -53,10 +61,13 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  },
-  resolve: {
-    alias: {
-      vue: 'vue/dist/vue.js'
+    extend(config) {
+      config.resolve.alias['vue'] = 'vue/dist/vue.common'
     },
-  },
+    resolve: {
+      alias: {
+        vue: 'vue/dist/vue.esm.js'
+      },
+    },
+  }
 }

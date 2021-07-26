@@ -29,12 +29,14 @@ export default {
   mounted () {
     loadModules([
       'esri/Map',
-      'esri/views/SceneView',
-      'esri/core/watchUtils'
+      'esri/views/MapView',
+      'esri/core/watchUtils',
+      'esri/views/draw/Draw'
     ], {
       // use a specific version instead of latest 4.x
       url: 'https://js.arcgis.com/4.2/'
-    }).then(([EsriMap, SceneView, watchUtils]) => {
+    }).then(([EsriMap, MapView, watchUtils, Draw]) => {
+
       // create map with the given options at a DOM node w/ id 'mapNode'
       let map
       if (!this.$store.state.map) {
@@ -49,11 +51,64 @@ export default {
       const view = new SceneView({
         container: 'viewDiv',
         map,
-        camera: this.$store.state.camera
+        camera: this.$store.state.camera,
+        constraints: {
+          maxZoom: 17,
+          minZoom: 2
+        },
       })
+// create a new instance of draw
+      let draw = new Draw({
+        view: view
+      });
+
+// create an instance of draw polyline action
+// the polyline vertices will be only added when
+// the pointer is clicked on the view
+      let action = draw.create("polyline", {mode: "click"});
+
+// fires when a vertex is added
+      action.on("vertex-add", function (evt) {
+        measureLine(evt.vertices);
+      });
+
+// fires when the pointer moves
+      action.on("cursor-update", function (evt) {
+        measureLine(evt.vertices);
+      });
+
+// fires when the drawing is completed
+      action.on("draw-complete", function (evt) {
+        measureLine(evt.vertices);
+      });
+
+// fires when a vertex is removed
+      action.on("vertex-remove", function (evt) {
+        measureLine(evt.vertices);
+      });
+
+      function measureLine(vertices) {
+        view.graphics.removeAll();
+
+        let line = createLine(vertices);
+        let lineLength = geometryEngine.geodesicLength(line, "miles");
+        let graphic = createGraphic(line);
+        view.graphics.add(graphic);
+      }
+
+      function createLine(vertices) {
+        let polyline = {
+          type: "polyline", // autocasts as new Polyline()
+          paths: vertices,
+          spatialReference: view.spatialReference
+        }
+        return polyline;
+      }
+
       this.$store.commit('setWatchHandle', watchUtils.watch(view, 'camera', (camera) => {
         this.$store.commit('setCamera', camera.clone().toJSON())
       }))
+
       // NOTE: important: now that we're using a promise
       // your callback must NOT return any v4.x classes that resolve to promises
       // this will cause a hole in the space-time continum that will kill us all
