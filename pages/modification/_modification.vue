@@ -23,7 +23,7 @@
           <br />
           <table class="table-auto border-collapse w-full">
             <thead>
-              <tr class="rounded-lg text-sm font-medium text-gray-700 text-left   " style="font-size: 0.9674rem">
+              <tr class="rounded-lg text-sm font-medium text-gray-700 text-left">
                 <th class="px-4 py-2 bg-gray-100">Change</th>
                 <th class="px-4 py-2 bg-gray-100">Date</th>
                 <th class="px-4 py-2 bg-gray-100">Proposer</th>
