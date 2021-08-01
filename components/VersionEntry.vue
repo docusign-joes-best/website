@@ -64,7 +64,7 @@ export default Vue.extend({
 })
 </script>
 
-<style>
+<!-- <style>
 .collapsible {
   max-height: 0px;
   overflow: hidden;
@@ -77,4 +77,4 @@ export default Vue.extend({
   display: table-row;
   max-height: 100vh;
 }
-</style>
+</style> -->
