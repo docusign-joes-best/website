@@ -52,11 +52,13 @@ export default Vue.extend({
     }
   },
   methods: {
-    toggle(id) {
-      if (document.getElementById(id).style.display == "none")
-        document.getElementById(id).style.display = "table-row";
-      else
-        document.getElementById(id).style.display = "none";
+    toggle(id, log) {
+      if (log.length > 0) {
+        if (document.getElementById(id).style.display == "none")
+          document.getElementById(id).style.display = "table-row";
+        else
+          document.getElementById(id).style.display = "none";
+      }
     }
   }
 })
