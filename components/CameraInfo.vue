@@ -3,7 +3,13 @@
 </template>
 
 <script>
-import { loadModules } from 'esri-loader'
+import esriConfig from "@arcgis/core/config";
+import EsriMap from "@arcgis/core/Map";
+import MapView from "@arcgis/core/views/MapView";
+// import * as watchUtils from "@arcgis/core/core/watchUtils";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
+import Sketch from "@arcgis/core/widgets/Sketch";
+
 export default {
   data ({ req }) {
     return {
@@ -16,41 +22,38 @@ export default {
     }
   },
   mounted () {
-    loadModules([
-      'esri/Map',
-      'esri/views/MapView',
-      'esri/core/watchUtils'
-    ], {
-      // use a specific version instead of latest 4.x
-      url: 'https://js.arcgis.com/4.2/'
-    }).then(([EsriMap, MapView, watchUtils]) => {
-      // create map with the given options at a DOM node w/ id 'mapNode'
-      let map
-      if (!this.$store.state.map) {
-        map = new EsriMap({
-          basemap: 'satellite',
-          ground: 'world-elevation'
-        })
-        this.$store.commit('setMap', map)
-      } else {
-        map = this.$store.state.map
-      }
-      const view = new MapView({
-        container: 'viewDiv',
-        map,
-        camera: this.$store.state.camera
-      })
-      this.$store.commit('setWatchHandle', watchUtils.watch(view, 'camera', (camera) => {
-        this.$store.commit('setCamera', camera.clone().toJSON())
-      }))
-      // NOTE: important: now that we're using a promise
-      // your callback must NOT return any v4.x classes that resolve to promises
-      // this will cause a hole in the space-time continum that will kill us all
-      // return view
+    esriConfig.apiKey = process.env.ESRI_API_KEY
+    // create map with the given options at a DOM node w/ id 'mapNode'
+    const graphicsLayer = new GraphicsLayer()
+
+    const map = new EsriMap({
+      basemap: 'satellite',
+      ground: 'world-elevation',
+      layer: [graphicsLayer]
     })
+    const view = new MapView({
+      container: 'viewDiv',
+      map,
+      camera: this.$store.state.camera
+    })
+
+    view.when(() => {
+      const sketch = new Sketch({
+        layer: graphicsLayer,
+        view,
+        // graphic will be selected as soon as it is created
+        creationMode: "update"
+      });
+
+      view.ui.add(sketch, "top-right");
+    });
+
+    // this.$store.commit('setWatchHandle', watchUtils.watch(view, 'camera', (camera) => {
+    //   this.$store.commit('setCamera', camera.clone().toJSON())
+    // }))
   },
   beforeDestroy () {
-    this.$store.state.watchHandle.remove()
+    // this.$store.state.watchHandle.remove()
   }
 }
 </script>
