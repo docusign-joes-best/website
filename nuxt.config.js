@@ -57,5 +57,9 @@ export default {
 
   tailwindcss: {
     configPath: 'tailwind.config.js',
+  },
+  
+  env: {
+    ESRI_API_KEY: process.env.ESRI_API_KEY
   }
 }
