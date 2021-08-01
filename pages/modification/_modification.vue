@@ -23,47 +23,22 @@
           <br />
           <table class="table-auto border-collapse w-full">
             <thead>
-              <tr class="rounded-lg text-sm font-medium text-gray-700 text-left">
+              <tr class="text-sm font-medium text-gray-700 text-left">
                 <th class="px-4 py-2 bg-gray-100">Change</th>
                 <th class="px-4 py-2 bg-gray-100">Date</th>
                 <th class="px-4 py-2 bg-gray-100">Proposer</th>
                 <th class="px-4 py-2 bg-gray-100">Changes</th>
               </tr>
             </thead>
-            <tbody class="text-sm font-normal">
-              <tr class="hover:bg-gray-100 border-b border-gray-200 py-10">
-                <td class="px-4 py-4">M1303</td>
-                <td class="px-4 py-4">2021-07-16 13:59</td>
-                <td class="px-4 py-4">Joe M.</td>
-                <td class="px-4 py-4">Point (x, y, z) → Point (x + 1, y + 5, z + 10)</td>
-              </tr>
-              <tr class="hover:bg-gray-100 border-b border-gray-200 py-10">
-                <td class="px-5 py-5" colspan="4">
-                  <h4 class="font-bold">
-                    M1303 Log 
-                  </h4>
-                  <br />
-                  <modification-log-entry
-                    :approved="true"
-                    logger="John K."
-                    :date="new Date()"
-                    comment="Agreed, looks good to me besides the last point. There was a stakeholder who spotted one near the woods."
-                  />
-                  <modification-log-entry
-                    :approved="false"
-                    logger="Jake L."
-                    :date="new Date()"
-                    comment="Agreed, looks good to me besides the last point. There was a stakeholder who spotted one near the woods."
-                  />
-                </td>
-              </tr>
-              <tr class="hover:bg-gray-100 border-b border-gray-200 py-4">
-                <td class="px-4 py-4">M1034</td>
-                <td class="px-4 py-4">2021-07-16 13:45</td>
-                <td class="px-4 py-4">Jake K.</td>
-                <td class="px-4 py-4">Point (x, y, z) → Point (x + 51, y + 12, z + 15)</td>
-              </tr>
-            </tbody>
+            <version-entry
+              v-for="mod in proposedModification"
+              v-bind:key="mod.changeId"
+              :changeId="mod.changeId"
+              :date="mod.date"
+              :proposer="mod.proposer"
+              :changes="mod.changes"
+              :log="mod.log"
+            />
           </table>
         </div>
         <div class="w-1/4 px-3">
@@ -95,11 +70,46 @@
 import Vue from 'vue'
 import ModificationLogEntry from '@/components/ModificationLogEntry.vue'
 import CollaboratorSignature from '@/components/CollaboratorSignature.vue'
+import VersionEntry from '../../components/VersionEntry.vue'
 
 export default Vue.extend({
+  data() {
+    return {
+      proposedModification: [
+        {
+          changeId: 'M1303',
+          date: '2021-07-16 13:59',
+          proposer: 'Joe M.',
+          changes: 'Point (x, y, z) → Point (x + 1, y + 5, z + 10)',
+          log: [
+            {
+              approved: true,
+              logger: 'John K.',
+              date: new Date(),
+              comment: 'Agreed, looks good to me besides the last point. There was a stakeholder who spotted one near the woods.'
+            },
+            {
+              approved: false,
+              logger: 'Jake L.',
+              date: new Date(),
+              comment: "Agreed, looks good to me besides the last point. There was a stakeholder who spotted one near the woods."
+            }
+          ]
+        },
+        {
+          changeId: 'M1034',
+          date: '2021-07-16 13:45',
+          proposer: 'Jake K.',
+          changes: 'Point (x, y, z) → Point (x + 51, y + 12, z + 15)',
+          log: []
+        }
+      ]
+    }
+  },
   components: {
     ModificationLogEntry,
-    CollaboratorSignature
+    CollaboratorSignature,
+    VersionEntry,
   }
 })
 </script>
